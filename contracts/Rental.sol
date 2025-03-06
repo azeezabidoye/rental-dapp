@@ -45,4 +45,14 @@ contract Rental {
         renters[walletAddress].active = true;
         renters[walletAddress].start = block.timestamp;
     }
+
+    // Check-in car ==> Return rented car
+    function checkIn(address payable walletAddress) public {
+        require(renters[walletAddress].active == true, "Kindly checkout the car!");
+        renters[walletAddress].active = false;
+        renters[walletAddress].end = block.timestamp;
+
+        // Set amount due
+        setDueAmount(walletAddress);
+    }
 }
