@@ -2,7 +2,7 @@ require("@nomicfoundation/hardhat-toolbox");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.23",
+  solidity: "0.8.28",
   networks: {
     crossfiTestnet: {
       chainId: 4157,
