@@ -36,4 +36,13 @@ contract Rental {
         uint end) public {
             renters[walletAddress] = Renter(payable (walletAddress), firstName, lastName, canRent, active, balance, amountDue, start, end);
     }
+
+    // Checkout car ==> Rent a new car
+    function checkOut(address payable walletAddress) public {
+        require(renters[walletAddress].amountDue == 0, "You have a pending balance!");
+        require(renters[walletAddress].canRent == true, "Can't rent a car at the moment!");
+        renters[walletAddress].canRent = false;
+        renters[walletAddress].active = true;
+        renters[walletAddress].start = block.timestamp;
+    }
 }
