@@ -68,4 +68,14 @@ contract Rental {
         uint timespanInMinutes = timespan / 60;
         return timespanInMinutes;
     }
+
+    // Get contract balance
+    function balanceOf() public view returns (uint) {
+        return address(this).balance;
+    }
+
+    // Get Renter's balance
+    function balanceOfRenter(address payable walletAddress) public view returns(uint){
+        return renters[walletAddress].balance;
+    }
 }
