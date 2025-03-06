@@ -103,7 +103,7 @@ contract Rental {
         renters[walletAddress].balance -= msg.value;
         renters[walletAddress].canRent = true;
         renters[walletAddress].active = false;
-        renters[walletAddress].due = 0;
+        renters[walletAddress].amountDue = 0;
         renters[walletAddress].start = 0;
         renters[walletAddress].end = 0;
     }
