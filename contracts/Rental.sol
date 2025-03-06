@@ -55,4 +55,17 @@ contract Rental {
         // Set amount due
         setDueAmount(walletAddress);
     }
+
+    // Calculate the Timespan
+    function renterTimespan(uint start, uint end) internal pure returns (uint){
+        return end - start;
+    }
+
+    // Get total duration of car use
+    function getTotalDuration(address payable walletAddress) public view returns(uint) {
+        require(renters[walletAddress].active == false, "The car is currently checked out!");
+        uint timespan = renterTimespan(renters[walletAddress].start, renters[walletAddress].end);
+        uint timespanInMinutes = timespan / 60;
+        return timespanInMinutes;
+    }
 }
