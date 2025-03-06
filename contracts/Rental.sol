@@ -95,4 +95,16 @@ contract Rental {
     function deposit(address walletAddress) payable public {
         renters[walletAddress].balance += msg.value;
     }
+
+    // Make Payment after check-in
+    function makePayment(address walletAddress) payable  public {
+        require(renters[walletAddress].amountDue > 0, "You do not have anything due at this time!");
+        require(renters[walletAddress].balance > 0, "You do not have enough fund to cover payment. Please make a deposit!");
+        renters[walletAddress].balance -= msg.value;
+        renters[walletAddress].canRent = true;
+        renters[walletAddress].active = false;
+        renters[walletAddress].due = 0;
+        renters[walletAddress].start = 0;
+        renters[walletAddress].end = 0;
+    }
 }
