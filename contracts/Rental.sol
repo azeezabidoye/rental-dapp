@@ -78,4 +78,21 @@ contract Rental {
     function balanceOfRenter(address payable walletAddress) public view returns(uint){
         return renters[walletAddress].balance;
     }
+
+    // Set Due amount
+    function setDueAmount(address payable  walletAddress) internal {
+        uint timespanMinutes = getTotalDuration(walletAddress);
+        uint fiveMinutesIncrement = timespanMinutes / 5;
+        renters[walletAddress].amountDue = fiveMinutesIncrement * 5000000000000000;
+    }
+
+    // Reset renter's position after checking-in
+    function canRentCar(address payable walletAddress) public view returns(bool) {
+        return renters[walletAddress].canRent;
+    }
+
+    // Deposit fund
+    function deposit(address walletAddress) payable public {
+        renters[walletAddress].balance += msg.value;
+    }
 }
