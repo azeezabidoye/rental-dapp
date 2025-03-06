@@ -20,4 +20,7 @@ contract Rental {
         uint start;
         uint end;
     }
+
+    // Mapping wallet addresses to each Renter
+    mapping (address => Renter) public renters;
 }
