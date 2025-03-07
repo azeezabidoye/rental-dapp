@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Rental.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\ncontract Rental {\n    address owner;\n\n    constructor() {\n        owner = msg.sender;\n    }\n\n    // Add a new Renter\n    struct Renter {\n        address payable walletAddress;\n        string firstName;\n        string lastName;\n        bool canRent;\n        bool active;\n        uint balance;\n        uint amountDue;\n        uint start;\n        uint end;\n    }\n\n    // Mapping wallet addresses to each Renter\n    mapping (address => Renter) public renters;\n\n    // Function for adding a Renter to the list of \"Renters\"\n    function addRenter(address payable walletAddress,\n        string memory firstName,\n        string memory lastName,\n        bool canRent,\n        bool active,\n        uint balance,\n        uint amountDue,\n        uint start,\n        uint end) public {\n            renters[walletAddress] = Renter(payable (walletAddress), firstName, lastName, canRent, active, balance, amountDue, start, end);\n    }\n\n    // Checkout car ==> Rent a new car\n    function checkOut(address payable walletAddress) public {\n        require(renters[walletAddress].amountDue == 0, \"You have a pending balance!\");\n        require(renters[walletAddress].canRent == true, \"Can't rent a car at the moment!\");\n        renters[walletAddress].canRent = false;\n        renters[walletAddress].active = true;\n        renters[walletAddress].start = block.timestamp;\n    }\n\n    // Check-in car ==> Return rented car\n    function checkIn(address payable walletAddress) public {\n        require(renters[walletAddress].active == true, \"Kindly checkout the car!\");\n        renters[walletAddress].active = false;\n        renters[walletAddress].end = block.timestamp;\n\n        // Set amount due\n        setDueAmount(walletAddress);\n    }\n\n    // Calculate the Timespan\n    function renterTimespan(uint start, uint end) internal pure returns (uint){\n        return end - start;\n    }\n\n    // Get total duration of car use\n    function getTotalDuration(address payable walletAddress) public view returns(uint) {\n        require(renters[walletAddress].active == false, \"The car is currently checked out!\");\n        uint timespan = renterTimespan(renters[walletAddress].start, renters[walletAddress].end);\n        uint timespanInMinutes = timespan / 60;\n        return timespanInMinutes;\n    }\n\n    // Get contract balance\n    function balanceOf() public view returns (uint) {\n        return address(this).balance;\n    }\n\n    // Get Renter's balance\n    function balanceOfRenter(address payable walletAddress) public view returns(uint){\n        return renters[walletAddress].balance;\n    }\n\n    // Set Due amount\n    function setDueAmount(address payable  walletAddress) internal {\n        uint timespanMinutes = getTotalDuration(walletAddress);\n        uint fiveMinutesIncrement = timespanMinutes / 5;\n        renters[walletAddress].amountDue = fiveMinutesIncrement * 5000000000000000;\n    }\n\n    // Reset renter's position after checking-in\n    function canRentCar(address payable walletAddress) public view returns(bool) {\n        return renters[walletAddress].canRent;\n    }\n\n    // Deposit fund\n    function deposit(address walletAddress) payable public {\n        renters[walletAddress].balance += msg.value;\n    }\n\n    // Make Payment after check-in\n    function makePayment(address walletAddress) payable  public {\n        require(renters[walletAddress].amountDue > 0, \"You do not have anything due at this time!\");\n        require(renters[walletAddress].balance > 0, \"You do not have enough fund to cover payment. Please make a deposit!\");\n        renters[walletAddress].balance -= msg.value;\n        renters[walletAddress].canRent = true;\n        renters[walletAddress].active = false;\n        renters[walletAddress].amountDue = 0;\n        renters[walletAddress].start = 0;\n        renters[walletAddress].end = 0;\n    }\n}"
+    }
+  },
+  "settings": {
+    "evmVersion": "paris",
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
