@@ -14,7 +14,7 @@ module.exports = {
     crossfiTestnet: {
       chainId: 4157,
       url: CROSSFI_ALCHEMY_URL,
-      accounts: [],
+      accounts: [`0x${PRIVATE_KEY}`],
     },
   },
   namedAccounts: {
