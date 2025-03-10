@@ -13,8 +13,8 @@ module.exports = {
   networks: {
     crossfiTestnet: {
       chainId: 4157,
-      url: "",
-      accounts: [""],
+      url: CROSSFI_ALCHEMY_URL,
+      accounts: [],
     },
   },
   namedAccounts: {
