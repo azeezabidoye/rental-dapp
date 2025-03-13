@@ -67,4 +67,10 @@ describe("Rental Smart Contract", function () {
     const updatedRenter = await rental.renters(renter.address);
     expect(updatedRenter.active).to.be.false;
   });
+
+  it("Should allow renter to deposit funds", async function () {
+    await rental.deposit(renter.address, { value: ethers.parseEther("1") });
+    const renterBalance = await rental.balanceOfRenter(renter.address);
+    expect(renterBalance).to.equal(ethers.parseEther("1"));
+  });
 });
