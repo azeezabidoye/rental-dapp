@@ -82,18 +82,36 @@ describe("Rental Smart Contract", function () {
       true,
       false,
       ethers.parseEther("1"),
-      ethers.parseEther("0.1"),
+      ethers.parseEther("0.05"),
       0,
       0
     );
 
     await rental.deposit(renter.address, { value: ethers.parseEther("1") });
     await rental.makePayment(renter.address, {
-      value: ethers.parseEther("0.1"),
+      value: ethers.parseEther("0.05"),
     });
 
     const updatedRenter = await rental.renters(renter.address);
     expect(updatedRenter.canRent).to.be.true;
     expect(updatedRenter.amountDue).to.equal(0);
+  });
+
+  it("Should not allow renter to check out with pending balance", async function () {
+    await rental.addRenter(
+      renter.address,
+      "John",
+      "Doe",
+      true,
+      false,
+      ethers.parseEther("1"),
+      ethers.parseEther("0.05"),
+      0,
+      0
+    );
+
+    await expect(rental.checkOut(renter.address)).to.be.revertedWith(
+      "You have a pending balance!"
+    );
   });
 });
