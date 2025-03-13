@@ -73,4 +73,27 @@ describe("Rental Smart Contract", function () {
     const renterBalance = await rental.balanceOfRenter(renter.address);
     expect(renterBalance).to.equal(ethers.parseEther("1"));
   });
+
+  it("Should allow renter to make payment and reset status", async function () {
+    await rental.addRenter(
+      renter.address,
+      "John",
+      "Doe",
+      true,
+      false,
+      ethers.parseEther("1"),
+      ethers.parseEther("0.1"),
+      0,
+      0
+    );
+
+    await rental.deposit(renter.address, { value: ethers.parseEther("1") });
+    await rental.makePayment(renter.address, {
+      value: ethers.parseEther("0.1"),
+    });
+
+    const updatedRenter = await rental.renters(renter.address);
+    expect(updatedRenter.canRent).to.be.true;
+    expect(updatedRenter.amountDue).to.equal(0);
+  });
 });
