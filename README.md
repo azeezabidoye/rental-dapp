@@ -15,3 +15,17 @@ DEPLOYMENT OUTPUT
 Compiled 1 Solidity file successfully (evm target: paris).
 deploying "Rental" (tx: 0x722012ff0b9036f3d56587de9e87549be2b95e3b10a76525b22d489e34f72ffb)...: deployed at 0x0847857BE3dce76060Fabe41648CcbFe7f6898Fc with 1585543 gas
 ✨ Done in 15.76s.
+
+TEST RESULT
+
+Rental Smart Contract
+✔ Should add a renter successfully
+✔ Should allow renter to check out a car
+✔ Should allow renter to check in a car
+✔ Should allow renter to deposit funds
+✔ Should allow renter to make payment and reset status
+✔ Should not allow renter to check out with pending balance
+
+6 passing (429ms)
+
+✨ Done in 2.33s.
