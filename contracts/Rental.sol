@@ -5,7 +5,7 @@ contract Rental {
     address owner;
 
     constructor() {
-        // owner = msg.sender;
+        owner = msg.sender;
     }
 
     // Add a new Renter
