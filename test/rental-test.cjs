@@ -1,4 +1,4 @@
-const { ethers } = require("hardhat");
+// const { ethers } = require("hardhat");
 // const { expect } = require("chai");
 
 describe("Rental Smart Contract", function () {
