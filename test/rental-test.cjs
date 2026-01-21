@@ -1,5 +1,5 @@
 const { ethers } = require("hardhat");
-const { expect } = require("chai");
+// const { expect } = require("chai");
 
 describe("Rental Smart Contract", function () {
   let Rental, rental, owner, renter;
@@ -21,7 +21,7 @@ describe("Rental Smart Contract", function () {
       ethers.parseEther("1"),
       0,
       0,
-      0
+      0,
     );
 
     const addedRenter = await rental.renters(renter.address);
@@ -39,7 +39,7 @@ describe("Rental Smart Contract", function () {
       ethers.parseEther("1"),
       0,
       0,
-      0
+      0,
     );
 
     await rental.checkOut(renter.address);
@@ -58,7 +58,7 @@ describe("Rental Smart Contract", function () {
       ethers.parseEther("1"),
       0,
       0,
-      0
+      0,
     );
 
     await rental.checkOut(renter.address);
@@ -84,7 +84,7 @@ describe("Rental Smart Contract", function () {
       ethers.parseEther("1"),
       ethers.parseEther("0.05"),
       0,
-      0
+      0,
     );
 
     await rental.deposit(renter.address, { value: ethers.parseEther("1") });
@@ -107,11 +107,11 @@ describe("Rental Smart Contract", function () {
       ethers.parseEther("1"),
       ethers.parseEther("0.05"),
       0,
-      0
+      0,
     );
 
     await expect(rental.checkOut(renter.address)).to.be.revertedWith(
-      "You have a pending balance!"
+      "You have a pending balance!",
     );
   });
 });
