@@ -1,5 +1,5 @@
 // const { ethers } = require("hardhat");
-// const { expect } = require("chai");
+const { expect } = require("chai");
 
 describe("Rental Smart Contract", function () {
   let Rental, rental, owner, renter;
