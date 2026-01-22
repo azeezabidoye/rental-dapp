@@ -6,7 +6,7 @@ const { CROSSFI_ALCHEMY_URL, PRIVATE_KEY } = process.env;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.28",
+  solidity: "0.8.27",
   paths: {
     artifacts: "./src/artifacts",
   },
